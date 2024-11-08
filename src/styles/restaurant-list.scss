@@ -1,0 +1,29 @@
+// restaurant-list.scss
+.restaurant-list {
+    padding: 1rem;
+
+    .restaurants {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1rem;
+    }
+
+    .restaurant-card {
+        background-color: var(--dracula-current-line);
+        padding: 1rem;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+
+        img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+
+        &__details h3 {
+            margin-top: 0.5rem;
+            color: var(--dracula-purple);
+        }
+    }
+}

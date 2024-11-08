@@ -1,0 +1,39 @@
+// navbar.scss
+.app-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: var(--dracula-dark);
+
+    &__brand h1 {
+        margin: 0;
+        font-size: 1.5rem;
+        color: var(--dracula-purple);
+    }
+
+    .nav-menu {
+        list-style: none;
+        display: flex;
+        gap: 1rem;
+        margin: 0;
+
+        li a {
+            text-decoration: none;
+            color: var(--dracula-foreground);
+
+            &:hover {
+                color: var(--dracula-purple);
+            }
+        }
+    }
+
+    .hamburger-button {
+        display: none;
+        background: none;
+        border: none;
+        color: var(--dracula-foreground);
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
+}

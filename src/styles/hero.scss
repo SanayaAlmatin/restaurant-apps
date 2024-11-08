@@ -1,0 +1,17 @@
+// hero.scss
+.hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    background-image: url("../public/images/heros/hero-image_1.jpg");
+    background-size: cover;
+    background-position: center;
+    color: var(--dracula-foreground);
+
+    &__content {
+        text-align: center;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 1rem;
+    }
+}
