@@ -5,7 +5,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Restaurant Finder</title>
-  <link rel="stylesheet" href="../styles/main.scss">
+  <link rel="stylesheet" href="./styles/app.css">
+  <!-- Fontawesome CSS -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+    integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
 </head>
 
 <body>
@@ -16,7 +19,7 @@
   <!-- App Bar -->
   <header class="app-bar">
     <div class="app-bar__brand">
-      <img src="../public/images/medical-icon-restaurant.jpg" alt="Restaurant Finder Logo">
+      <img src="images/medical-icon--restaurant.svg" alt="Restaurant Finder Logo">
       <h1>Restaurant Finder</h1>
     </div>
     <nav class="app-bar__navigation">
@@ -31,7 +34,6 @@
 
   <!-- Hero Section -->
   <section class="hero">
-    <img src="../public/images/heros/hero-image_1.jpg" alt="Hero Image">
     <div class="hero__content">
       <h2>Discover the Best Restaurants in Town</h2>
       <p>Explore a variety of dining options and find your next favorite spot.</p>
@@ -45,12 +47,16 @@
       <div class="restaurants">
         <!-- Example Restaurant Card -->
         <article class="restaurant-card">
-          <img src="../public/images/heros/hero-image_2.jpg" alt="Restaurant Name">
+          <div class="location">Kota: Jakarta</div>
+          <img src="images/heros/hero-image_2.jpg" alt="Restaurant Name">
           <div class="restaurant-card__details">
+            <p class="rating">Rating: <span>4.5</span></p>
             <h3>Restaurant Name</h3>
-            <p>City: Jakarta</p>
-            <p>Rating: 4.5</p>
-            <p>Description: A great place to enjoy your meal.</p>
+            <p class="description">
+              A great place to enjoy your meal. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+              tempor incididunt ut labore et dolore magna aliqua...
+            </p>
+            <button class="toggle-button">Read More</button>
           </div>
         </article>
         <!-- Repeat cards as needed -->
@@ -59,10 +65,26 @@
   </main>
 
   <!-- Footer -->
-  <footer class="footer">
-    <p>Copyright © 2024 - Restaurant Finder</p>
+  <footer>
+    <div>
+      <section>
+        <a style="background-color: #ac2bac;" href="#!" role="button" data-title="Instagram"><i
+            class="fab fa-instagram"></i></a>
+        <a style="background-color: #333333;" href="#!" role="button" data-title="GitHub"><i
+            class="fab fa-github"></i></a>
+      </section>
+    </div>
+    <div class="text-footer" style="background-color: rgba(0, 0, 0, 0.05);">
+      © 2024 Copyright:
+      <p>Muchamad Sanaya Almatin (Id: F1837YB42)</p>
+    </div>
   </footer>
-
 </body>
+
+<script src="app.bundle.js"></script>
+<!-- Fontawesome JS -->
+<script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"
+  integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous">
+</script>
 
 </html>

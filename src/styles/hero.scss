@@ -1,17 +1,36 @@
-// hero.scss
+@use 'variables';
+
 .hero {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    padding: 2rem;
-    background-image: url("../public/images/heros/hero-image_1.jpg");
+    height: 60vh;
+    color: variables.$dracula-foreground;
+    background-image:
+        linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+        url("../public/images/heros/hero-image_1.jpg");
     background-size: cover;
     background-position: center;
-    color: var(--dracula-foreground);
+    position: relative;
 
     &__content {
+        background: rgba(0, 0, 0, 0.5); // Warna gelap dengan transparansi
+        padding: 2rem;
+        border-radius: 8px;
         text-align: center;
-        background: rgba(0, 0, 0, 0.5);
+        max-width: 80%;
+        box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.6); // Efek bayangan untuk smoke
+        backdrop-filter: blur(5px); // Efek blur untuk memberikan kesan smoke
+    }
+}
+
+// Responsive Styling for Hero
+@media (max-width: 768px) {
+    .hero {
+        height: 50vh;
+    }
+
+    .hero__content {
         padding: 1rem;
     }
 }

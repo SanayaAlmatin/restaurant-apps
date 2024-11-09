@@ -1,6 +1,72 @@
-// footer.scss
-.footer {
-    text-align: center;
+@use 'variables';
+
+footer {
+    background-color: variables.$dracula-purple;
     padding: 1rem;
-    background-color: var(--dracula-dark);
+    text-align: center;
+    color: variables.$dracula-foreground;
+    margin-left: 0;
+    position: relative;
+    z-index: 10;
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    a {
+        position: relative;
+        display: inline-block;
+        transition: transform 0.3s ease;
+        font-size: 1.5rem;
+        color: white;
+        border-radius: 5px;
+        padding-top: 6px;
+        padding-bottom: 6px;
+        padding-inline: 10px;
+        margin-bottom: 25px;
+        margin-inline: 5px;
+        
+
+        &:hover {
+            transform: scale(1.1);
+        }
+
+        &::after {
+            content: attr(data-title);
+            position: absolute;
+            bottom: -1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: variables.$dracula-foreground;
+            opacity: 0;
+            white-space: nowrap;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        &:hover::after {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-5px);
+        }
+    }
+
+    .text-center {
+        padding: 1rem;
+        font-size: 0.9rem;
+    }
+}
+
+.text-footer{
+    font-size: large;
+    padding: 20px;
+}
+
+// Responsive Styling for Footer
+@media (max-width: 768px) {
+    footer .container {
+        flex-direction: column;
+    }
 }

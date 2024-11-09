@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const {
   CleanWebpackPlugin
 } = require('clean-webpack-plugin');
@@ -17,40 +18,39 @@ module.exports = {
   module: {
     rules: [{
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
         test: /\.scss$/,
         use: [
-          'style-loader',
+          MiniCssExtractPlugin.loader, // Ekstraksi CSS ke file terpisah
           'css-loader',
           'sass-loader',
         ],
       },
       {
-        test: /\.svg$/, // Tambahkan rule ini untuk file .svg
-        use: [{
-          loader: 'file-loader',
-          options: {
-            name: '[name].[hash].[ext]', // Pengaturan nama file output
-            outputPath: 'images', // Folder output di dalam dist
-          },
-        }, ],
+        test: /\.(png|jpg|jpeg|gif|svg)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'images/[name][ext]', // Struktur ini sesuai dengan folder images di dist
+        },
       },
     ],
   },
   plugins: [
     new CleanWebpackPlugin(),
-
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: path.resolve(__dirname, 'src/templates/index.html'),
     }),
     new CopyWebpackPlugin({
       patterns: [{
-        from: path.resolve(__dirname, 'src/public/'),
-        to: path.resolve(__dirname, 'dist/'),
+        from: path.resolve(__dirname, 'src/public/images'),
+        to: path.resolve(__dirname, 'dist/images'),
       }, ],
+    }),
+    new MiniCssExtractPlugin({
+      filename: 'styles/[name].css', // Output CSS akan berada di dist/styles
     }),
   ],
 };
