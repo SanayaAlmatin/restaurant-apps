@@ -11,7 +11,7 @@ module.exports = {
     app: path.resolve(__dirname, 'src/scripts/index.js'),
   },
   output: {
-    filename: '[name].bundle.js',
+    filename: 'scripts/[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
     clean: true,
   },
@@ -23,7 +23,7 @@ module.exports = {
       {
         test: /\.scss$/,
         use: [
-          MiniCssExtractPlugin.loader, // Ekstraksi CSS ke file terpisah
+          MiniCssExtractPlugin.loader,
           'css-loader',
           'sass-loader',
         ],
@@ -32,7 +32,7 @@ module.exports = {
         test: /\.(png|jpg|jpeg|gif|svg)$/i,
         type: 'asset/resource',
         generator: {
-          filename: 'images/[name][ext]', // Struktur ini sesuai dengan folder images di dist
+          filename: 'images/[name][ext]',
         },
       },
     ],
@@ -45,12 +45,17 @@ module.exports = {
     }),
     new CopyWebpackPlugin({
       patterns: [{
-        from: path.resolve(__dirname, 'src/public/images'),
-        to: path.resolve(__dirname, 'dist/images'),
-      }, ],
+          from: path.resolve(__dirname, 'src/public/images'),
+          to: path.resolve(__dirname, 'dist/images'),
+        },
+        {
+          from: path.resolve(__dirname, 'src/public/data'),
+          to: path.resolve(__dirname, 'dist/data'),
+        },
+      ],
     }),
     new MiniCssExtractPlugin({
-      filename: 'styles/[name].css', // Output CSS akan berada di dist/styles
+      filename: 'styles/[name].css',
     }),
   ],
 };

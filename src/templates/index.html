@@ -9,6 +9,8 @@
   <!-- Fontawesome CSS -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
     integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
+  <!-- File Javascript Custom -->
+  <script src="./scripts/app.bundle.js" defer></script>
 </head>
 
 <body>
@@ -19,7 +21,7 @@
   <!-- App Bar -->
   <header class="app-bar">
     <div class="app-bar__brand">
-      <img src="images/medical-icon--restaurant.svg" alt="Restaurant Finder Logo">
+      <img src="images/material-symbols-light--fastfood.svg" alt="Restaurant Finder Logo">
       <h1>Restaurant Finder</h1>
     </div>
     <nav class="app-bar__navigation">
@@ -27,7 +29,7 @@
       <ul class="nav-menu">
         <li><a href="/">Home</a></li>
         <li><a href="#">Favorite</a></li>
-        <li><a href="https://linkedin.com/in/username" target="_blank">About Us</a></li>
+        <li><a href="https://github.com/SanayaAlmatin" target="_blank">About Us</a></li>
       </ul>
     </nav>
   </header>
@@ -42,24 +44,40 @@
 
   <!-- Main Content -->
   <main id="main-content" class="main-content">
+    <section class="info-section">
+      <div class="info-section__content">
+        <h2><span>Bagaimana Cara Kami</span><span> Menilai Restaurant?</span></h2>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet in aperiam magnam, ut ad quo cum cupiditate
+          quis recusandae, repellat officia fugit porro accusamus facere ipsa possimus veniam consequuntur tempora?</p>
+      </div>
+      <div class="info-section__image">
+        <img src="images/certifacet.png" alt="3D images certificate">
+      </div>
+    </section>
+    <hr>
+
+    <section class="info-section_two">
+      <div class="info-section_two__image">
+        <img src="images/boy_character.png" alt="3D images certificate">
+      </div>
+      <div class="info-section_two__content">
+        <h2><span>Bagaimana Cara Kami</span><span> Menilai Restaurant?</span></h2>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet in aperiam magnam, ut ad quo cum cupiditate
+          quis recusandae, repellat officia fugit porro accusamus facere ipsa possimus veniam consequuntur tempora?</p>
+      </div>
+    </section>
+    <hr>
+
     <section class="restaurant-list">
-      <h2>Restaurants</h2>
-      <div class="restaurants">
-        <!-- Example Restaurant Card -->
-        <article class="restaurant-card">
-          <div class="location">Kota: Jakarta</div>
-          <img src="images/heros/hero-image_2.jpg" alt="Restaurant Name">
-          <div class="restaurant-card__details">
-            <p class="rating">Rating: <span>4.5</span></p>
-            <h3>Restaurant Name</h3>
-            <p class="description">
-              A great place to enjoy your meal. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua...
-            </p>
-            <button class="toggle-button">Read More</button>
+      <h2>Restaurant</h2>
+      <div class="carousel-container">
+        <button id="prevButton" class="carousel-button">Previous</button>
+        <div class="carousel-wrapper">
+          <div class="carousel">
+            <!-- Cards will be appended here by JavaScript -->
           </div>
-        </article>
-        <!-- Repeat cards as needed -->
+        </div>
+        <button id="nextButton" class="carousel-button">Next</button>
       </div>
     </section>
   </main>
@@ -81,7 +99,6 @@
   </footer>
 </body>
 
-<script src="app.bundle.js"></script>
 <!-- Fontawesome JS -->
 <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"
   integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous">

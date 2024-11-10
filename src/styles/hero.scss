@@ -5,6 +5,7 @@
     justify-content: center;
     align-items: center;
     height: 60vh;
+    width: 100%; // Default full-width
     color: variables.$dracula-foreground;
     background-image:
         linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
@@ -12,6 +13,11 @@
     background-size: cover;
     background-position: center;
     position: relative;
+
+    // Setting minimum width 1000px for large screens (>= 1200px)
+    @media (max-width: 1200px) {
+        width: min(100%, 1000px); // Full-width up to 1000px
+    }
 
     &__content {
         background: rgba(0, 0, 0, 0.5); // Warna gelap dengan transparansi
