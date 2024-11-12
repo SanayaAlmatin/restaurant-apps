@@ -1,34 +1,56 @@
 @use 'variables';
 
 .restaurant-list {
+    margin-top: 10px;
     padding: 2rem;
     color: variables.$dracula-foreground;
     text-align: center;
-    margin-bottom: 20px;
 
     h2 {
-        margin-bottom: 1.5rem;
+        margin-bottom: 2.2rem;
         font-size: 2rem;
         text-align: center;
+
+        @media(max-width: 768px){
+            margin-bottom: 1rem;
+            margin-top: 0.5rem;
+        }
     }
 
     .carousel-container {
         display: flex;
         align-items: center;
         justify-content: center;
+
+        @media (max-width: 768px) {
+            flex-direction: column;
+            align-items: flex-start;
+        }
     }
 
     .carousel-wrapper {
         overflow: hidden;
         width: 100%;
-        max-width: 900px; // Atur lebar maksimum carousel
+        max-width: 900px;
+
+        @media (max-width: 768px) {
+            overflow: visible;
+        }
     }
 
     .carousel {
         display: grid;
-        grid-template-columns: repeat(3, 1fr); // 3 kartu per baris
+        grid-template-columns: repeat(3, 1fr);
         gap: 1.5rem;
         transition: transform 0.5s ease;
+
+        @media (max-width: 768px) {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            justify-content: space-between;
+            gap: 1rem;
+        }
     }
 
     .carousel-button {
@@ -57,7 +79,17 @@
         text-align: left;
         position: relative;
         width: 100%;
-        max-width: 280px; // Membatasi lebar maksimum untuk setiap kartu
+        max-width: 280px;
+        display: flex;
+        flex-direction: column;
+        height: auto;
+
+        @media (max-width: 768px) {
+            width: 90%;
+            max-width: none;
+            margin: 0 auto 1rem;
+            min-height: auto;
+        }
 
         .location {
             position: absolute;
@@ -69,14 +101,24 @@
             border-radius: 5px;
             font-size: 0.9rem;
             font-weight: 600;
+
+            @media(max-width: 768px){
+                font-size: 0.7rem;
+            }
         }
 
         img {
             width: 100%;
-            height: 150px; // Atur tinggi gambar yang tetap
+            height: auto;
+            max-height: 150px;
             object-fit: cover;
             border-radius: 8px;
             margin-bottom: 1rem;
+
+            @media (max-width: 768px) {
+                max-height: 100px;
+                width: 170px;
+            }
         }
 
         &__details {
@@ -84,11 +126,19 @@
                 margin-top: 0.5rem;
                 color: variables.$dracula-purple;
                 font-size: 1rem;
+
+                @media (max-width: 768px) {
+                    font-size: 0.8rem;
+                }
             }
 
             .rating {
                 font-weight: 600;
                 margin-bottom: 0.5rem;
+
+                @media(max-width: 768px){
+                    font-size: 0.8rem;
+                }
             }
 
             span {
@@ -99,7 +149,7 @@
                 max-height: 3rem;
                 overflow: hidden;
                 text-overflow: ellipsis;
-                white-space: nowrap;
+                white-space: normal;
                 display: -webkit-box;
                 -webkit-line-clamp: 3;
                 -webkit-box-orient: vertical;
@@ -109,11 +159,14 @@
                 font-weight: 400;
                 font-size: medium;
                 margin-top: 0.5rem;
+
+                @media (max-width: 768px) {
+                    font-size: 0.7rem;
+                }
             }
 
             .description.expanded {
-                max-height: 100%;
-                white-space: normal;
+                max-height: 100px;
             }
         }
 
@@ -126,9 +179,37 @@
             padding: 0;
             transition: color 0.3s;
 
+            @media(max-width: 768px){
+                font-size: 0.7rem;
+            }
+
             &:hover {
                 color: variables.$dracula-foreground;
             }
+        }
+    }
+
+
+    @media (max-width: 768px) {
+
+        .prev-button,
+        .next-button {
+            display: none;
+        }
+
+        .carousel-wrapper {
+            max-width: 100%;
+            padding: 0 1rem;
+        }
+
+        .carousel {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+        }
+
+        .restaurant-card {
+            max-width: 100%;
+            padding: 0.5rem;
         }
     }
 }

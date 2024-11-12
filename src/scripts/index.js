@@ -1,16 +1,6 @@
 import 'regenerator-runtime';
 import '../styles/main.scss';
 
-// Toggle untuk hamburger button
-const hamburgerButton = document.querySelector(".hamburger-button");
-if (hamburgerButton) {
-    hamburgerButton.addEventListener("click", function () {
-        this.classList.toggle("active");
-        document.querySelector(".nav-menu").classList.toggle("active");
-    });
-}
-
-// Fungsi toggle untuk deskripsi
 function toggleDescription(button) {
     const description = button.previousElementSibling;
     if (description.classList.contains("expanded")) {
@@ -22,39 +12,41 @@ function toggleDescription(button) {
     }
 }
 
-// Attach toggleDescription function to buttons
 document.querySelectorAll(".toggle-button").forEach(button => {
     button.addEventListener("click", function () {
         toggleDescription(button);
     });
 });
 
-// Fungsi untuk memuat dan menampilkan restoran dalam bentuk carousel
+function getItemsPerPage(dataLength) {
+    return window.innerWidth <= 768 ? dataLength : 3; 
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     const carousel = document.querySelector(".carousel");
     const prevButton = document.getElementById("prevButton");
     const nextButton = document.getElementById("nextButton");
-    const itemsPerPage = 3; // Menampilkan 3 item per halaman
+    let itemsPerPage = 3; 
     let currentPage = 0;
     let totalPages = 0;
     let restaurantsData = [];
 
-    // Memuat data dari JSON dan menampilkan di carousel
     fetch("data/DATA.json")
         .then(response => response.json())
         .then(data => {
             restaurantsData = data.restaurants;
+            itemsPerPage = getItemsPerPage(restaurantsData.length);
             totalPages = Math.ceil(restaurantsData.length / itemsPerPage);
             updateCarousel();
         })
         .catch(error => console.error("Failed to load data:", error));
 
-    // Update carousel untuk menampilkan 3 item
     function updateCarousel() {
-        carousel.innerHTML = ""; // Bersihkan carousel
+        carousel.innerHTML = ""; 
+
         const start = currentPage * itemsPerPage;
         const end = start + itemsPerPage;
-        const itemsToShow = restaurantsData.slice(start, end);
+        const itemsToShow = window.innerWidth <= 768 ? restaurantsData : restaurantsData.slice(start, end);
 
         itemsToShow.forEach(restaurant => {
             const card = document.createElement("div");
@@ -72,7 +64,6 @@ document.addEventListener("DOMContentLoaded", () => {
             carousel.appendChild(card);
         });
 
-        // Event listener untuk tombol "Read More"
         document.querySelectorAll(".toggle-button").forEach(button => {
             button.addEventListener("click", function () {
                 const description = this.previousElementSibling;
@@ -80,9 +71,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 this.textContent = description.classList.contains("expanded") ? "Read Less" : "Read More";
             });
         });
+
+        if (window.innerWidth <= 768) {
+            prevButton.style.display = "none";
+            nextButton.style.display = "none";
+        } else {
+            prevButton.style.display = "block";
+            nextButton.style.display = "block";
+        }
     }
 
-    // Event listener untuk tombol navigasi
     prevButton.addEventListener("click", () => {
         if (currentPage > 0) currentPage--;
         updateCarousel();
@@ -91,5 +89,15 @@ document.addEventListener("DOMContentLoaded", () => {
     nextButton.addEventListener("click", () => {
         if (currentPage < totalPages - 1) currentPage++;
         updateCarousel();
+    });
+
+    window.addEventListener("resize", () => {
+        const newItemsPerPage = getItemsPerPage(restaurantsData.length);
+        if (newItemsPerPage !== itemsPerPage) {
+            itemsPerPage = newItemsPerPage;
+            totalPages = Math.ceil(restaurantsData.length / itemsPerPage);
+            currentPage = 0; 
+            updateCarousel();
+        }
     });
 });

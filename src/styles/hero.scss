@@ -4,8 +4,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 60vh;
-    width: 100%; // Default full-width
+    height: 100vh;
+    width: 100%; 
     color: variables.$dracula-foreground;
     background-image:
         linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
@@ -13,27 +13,32 @@
     background-size: cover;
     background-position: center;
     position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 
-    // Setting minimum width 1000px for large screens (>= 1200px)
     @media (max-width: 1200px) {
-        width: min(100%, 1000px); // Full-width up to 1000px
+        width: min(100%, 1000px); 
     }
 
     &__content {
-        background: rgba(0, 0, 0, 0.5); // Warna gelap dengan transparansi
+        background: rgba(0, 0, 0, 0.5); 
         padding: 2rem;
         border-radius: 8px;
         text-align: center;
         max-width: 80%;
-        box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.6); // Efek bayangan untuk smoke
-        backdrop-filter: blur(5px); // Efek blur untuk memberikan kesan smoke
+        box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.6); 
+        backdrop-filter: blur(5px); 
+
+        p {
+            font-size: medium;
+            margin-top: 20px;
+        }
+
     }
 }
 
-// Responsive Styling for Hero
 @media (max-width: 768px) {
     .hero {
-        height: 50vh;
+        height: 75vh;
     }
 
     .hero__content {

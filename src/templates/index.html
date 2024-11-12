@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Restaurant Finder</title>
+  <title>The Chosen One Resto</title>
   <link rel="stylesheet" href="./styles/app.css">
   <!-- Fontawesome CSS -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
@@ -22,10 +22,13 @@
   <header class="app-bar">
     <div class="app-bar__brand">
       <img src="images/material-symbols-light--fastfood.svg" alt="Restaurant Finder Logo">
-      <h1>Restaurant Finder</h1>
+      <h1>The Chosen One Resto</h1>
     </div>
     <nav class="app-bar__navigation">
-      <button aria-label="Open navigation menu" class="hamburger-button">☰</button>
+      <button aria-label="Open navigation menu" class="hamburger-button">
+        <img src="images/icon-park-outline--hamburger-button.svg" alt="Menu" class="hamburger-icon">
+        <img src="images/mingcute--close-line.svg" alt="Close button menu" class="close-button">
+      </button>
       <ul class="nav-menu">
         <li><a href="/">Home</a></li>
         <li><a href="#">Favorite</a></li>
@@ -44,37 +47,41 @@
 
   <!-- Main Content -->
   <main id="main-content" class="main-content">
-    <section class="info-section">
-      <div class="info-section__content">
-        <h2><span>Bagaimana Cara Kami</span><span> Menilai Restaurant?</span></h2>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet in aperiam magnam, ut ad quo cum cupiditate
-          quis recusandae, repellat officia fugit porro accusamus facere ipsa possimus veniam consequuntur tempora?</p>
-      </div>
+    <section class="info-section info-section--custom">
+      <h2>Who Are We?</h2>
       <div class="info-section__image">
-        <img src="images/certifacet.png" alt="3D images certificate">
-      </div>
-    </section>
-    <hr>
-
-    <section class="info-section_two">
-      <div class="info-section_two__image">
         <img src="images/boy_character.png" alt="3D images certificate">
       </div>
-      <div class="info-section_two__content">
-        <h2><span>Bagaimana Cara Kami</span><span> Menilai Restaurant?</span></h2>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet in aperiam magnam, ut ad quo cum cupiditate
-          quis recusandae, repellat officia fugit porro accusamus facere ipsa possimus veniam consequuntur tempora?</p>
+      <div class="info-section__content">
+        <h3><span>We Are The</span><span> Assessment Team</span></h3>
+        <p>"Who Are We?" We are a team committed to providing a fast, easy, and informative restaurant search service.
+          We are here to help you find the best restaurants in your city, complete with reviews, ratings, and other
+          important information, for a more satisfying culinary experience.</p>
       </div>
     </section>
-    <hr>
 
-    <section class="restaurant-list">
+    <section class="info-section_two">
+      <h2>We Assess Objectively</h2>
+      <div class="info-section_two__image">
+        <img src="images/certificate.png" alt="3D images certificate">
+      </div>
+      <div class="info-section_two__content">
+        <h3><span>How Do We</span><span> Rate Restaurants?</span></h3>
+        <p>Restaurants are rated based on a variety of aspects, including food quality, cleanliness, service, and
+          ambiance. Each restaurant is rated using a rating system that combines guest reviews with our own standards to
+          provide an accurate picture and help you choose the best place to eat for your needs.</p>
+        <button onclick="location.href='#restaurant-list'" class="navigate-button"><svg
+            xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 24 24">
+            <path fill="#f8f8f2" fill-rule="evenodd" d="m6 7l6 6l6-6l2 2l-8 8l-8-8z" /></svg></button>
+      </div>
+    </section>
+
+    <section class="restaurant-list" id="restaurant-list">
       <h2>Restaurant</h2>
       <div class="carousel-container">
         <button id="prevButton" class="carousel-button">Previous</button>
         <div class="carousel-wrapper">
           <div class="carousel">
-            <!-- Cards will be appended here by JavaScript -->
           </div>
         </div>
         <button id="nextButton" class="carousel-button">Next</button>
@@ -88,7 +95,7 @@
       <section>
         <a style="background-color: #ac2bac;" href="#!" role="button" data-title="Instagram"><i
             class="fab fa-instagram"></i></a>
-        <a style="background-color: #333333;" href="#!" role="button" data-title="GitHub"><i
+        <a style="background-color: #333333;" href="https://github.com/SanayaAlmatin" target="_blank" role="button" data-title="GitHub"><i
             class="fab fa-github"></i></a>
       </section>
     </div>
@@ -98,6 +105,17 @@
     </div>
   </footer>
 </body>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const hamburgerButton = document.querySelector('.hamburger-button');
+    const navMenu = document.querySelector('.nav-menu');
+    hamburgerButton.addEventListener('click', () => {
+      navMenu.classList.toggle('active');
+      hamburgerButton.classList.toggle('active');
+    });
+  });
+</script>
 
 <!-- Fontawesome JS -->
 <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"

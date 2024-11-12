@@ -6,7 +6,6 @@
 @use 'footer';
 @use 'skip-content';
 @use 'section-info';
-@use 'section-info_two';
 
 * {
     margin: 0;
@@ -29,6 +28,15 @@ body {
     padding: 0;
 }
 
+html {
+    overflow-x: hidden;
+    scrollbar-width: none;
+}
+
+html::-webkit-scrollbar {
+    display: none;
+}
+
 @keyframes gradientAnimation {
     0% {
         background-position: 0% 50%;
@@ -41,5 +49,4 @@ body {
     100% {
         background-position: 0% 50%;
     }
-
 }
