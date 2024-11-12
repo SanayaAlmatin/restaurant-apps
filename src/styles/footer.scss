@@ -22,19 +22,14 @@ footer {
         position: relative;
         display: inline-block;
         transition: transform 0.3s ease;
-        font-size: 1.5rem;
+        font-size: 2rem;
         color: white;
         border-radius: 5px;
-        padding-top: 6px;
-        padding-bottom: 6px;
-        padding-inline: 10px;
+        padding-top: 4px;
+        padding-bottom: 4px;
+        padding-inline: 8px;
         margin-bottom: 25px;
         margin-inline: 5px;
-
-        @media(max-width: 768px){
-            font-size: 1rem;
-        }
-        
 
         &:hover {
             transform: scale(1.1);
@@ -52,7 +47,7 @@ footer {
             transition: opacity 0.3s ease, transform 0.3s ease;
             font-size: 0.9rem;
 
-            @media(max-width: 768px){
+            @media(max-width: 768px) {
                 font-size: 0.8rem;
             }
         }
@@ -69,7 +64,7 @@ footer {
     }
 }
 
-.text-footer{
+.text-footer {
     font-size: large;
     padding: 20px;
 }
@@ -79,7 +74,7 @@ footer {
         flex-direction: column;
     }
 
-    .text-footer{
+    .text-footer {
         font-size: small;
     }
 }

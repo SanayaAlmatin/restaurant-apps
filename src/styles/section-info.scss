@@ -106,9 +106,14 @@
 
         .navigate-button {
             font-size: 1.5rem;
+
+            svg {
+                width: 2.8rem;
+                height: 2.8rem;
+            }
         }
 
-        img{
+        img {
             height: 200px;
         }
     }

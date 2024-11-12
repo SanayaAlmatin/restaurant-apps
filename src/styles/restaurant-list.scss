@@ -58,7 +58,7 @@
         color: variables.$dracula-foreground;
         font-weight: 600;
         cursor: pointer;
-        padding: 0.5rem 1rem;
+        padding: 1rem 1rem;
         border-radius: 5px;
         border: none;
         transition: color 0.3s;
@@ -180,7 +180,10 @@
             transition: color 0.3s;
 
             @media(max-width: 768px){
-                font-size: 0.7rem;
+                font-size: 0.8rem;
+                height: 44px;
+                width: 44px;
+                white-space: nowrap; 
             }
 
             &:hover {
