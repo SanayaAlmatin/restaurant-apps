@@ -1,6 +1,59 @@
 import 'regenerator-runtime';
 import '../styles/main.scss';
 
+// IndexedDB Utility Functions
+const dbName = "restaurant-favorites";
+const storeName = "favorites";
+
+function openDatabase() {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open(dbName, 1);
+
+        request.onupgradeneeded = event => {
+            const db = event.target.result;
+            if (!db.objectStoreNames.contains(storeName)) {
+                db.createObjectStore(storeName, {
+                    keyPath: "id"
+                });
+            }
+        };
+
+        request.onsuccess = event => resolve(event.target.result);
+        request.onerror = event => reject(event.target.error);
+    });
+}
+
+function addFavorite(restaurant) {
+    return openDatabase().then(db => {
+        const tx = db.transaction(storeName, "readwrite");
+        const store = tx.objectStore(storeName);
+        store.add(restaurant);
+        return tx.complete;
+    });
+}
+
+function removeFavorite(id) {
+    return openDatabase().then(db => {
+        const tx = db.transaction(storeName, "readwrite");
+        const store = tx.objectStore(storeName);
+        store.delete(id);
+        return tx.complete;
+    });
+}
+
+function isFavorite(id) {
+    return openDatabase().then(db => {
+        return new Promise(resolve => {
+            const tx = db.transaction(storeName, "readonly");
+            const store = tx.objectStore(storeName);
+            const request = store.get(id);
+
+            request.onsuccess = () => resolve(!!request.result);
+            request.onerror = () => resolve(false);
+        });
+    });
+}
+
 // Mendapatkan jumlah item per halaman berdasarkan ukuran layar
 function getItemsPerPage(dataLength) {
     return window.innerWidth <= 768 ? dataLength : 3;
@@ -38,21 +91,44 @@ document.addEventListener("DOMContentLoaded", () => {
             card.classList.add("restaurant-card");
             card.innerHTML = `
                 <div class="location">City: ${restaurant.city}</div>
-                <img src="https://restaurant-api.dicoding.dev/images/medium/${restaurant.pictureId}" alt="${restaurant.name}">
+                <img src="https://restaurant-api.dicoding.dev/images/small/${restaurant.pictureId}" alt="${restaurant.name}">
                 <div class="restaurant-card__details">
                     <p class="rating">Rating: <span>${restaurant.rating}</span></p>
                     <h3>${restaurant.name}</h3>
                     <p class="description">${restaurant.description.substring(0, 50)}...</p>
+                    <div class="favorite-icon">
+                        <img src="../images/uil--favorite.svg" alt="favorite icon" class="favorite-toggle" data-id="${restaurant.id}">
+                    </div>
                     <button class="toggle-button" data-id="${restaurant.id}">Detail</button>
                 </div>
             `;
             carousel.appendChild(card);
-        });
 
-        // Menambahkan event listener untuk tombol detail
-        document.querySelectorAll(".toggle-button").forEach(button => {
-            button.addEventListener("click", function () {
-                showDetail(button.getAttribute("data-id"));
+            // Cek status favorit untuk setiap restoran
+            const favoriteIcon = card.querySelector(".favorite-toggle");
+            isFavorite(restaurant.id).then(isFav => {
+                favoriteIcon.src = isFav ? "../images/uim--favorite.svg" : "../images/uil--favorite.svg";
+            });
+
+            // Tambahkan event listener untuk ikon favorit
+            favoriteIcon.addEventListener("click", () => {
+                isFavorite(restaurant.id).then(isFav => {
+                    if (isFav) {
+                        removeFavorite(restaurant.id).then(() => {
+                            favoriteIcon.src = "../images/uil--favorite.svg";
+                        });
+                    } else {
+                        addFavorite(restaurant).then(() => {
+                            favoriteIcon.src = "../images/uim--favorite.svg";
+                        });
+                    }
+                });
+            });
+
+            // Tambahkan event listener untuk tombol detail
+            const detailButton = card.querySelector(".toggle-button");
+            detailButton.addEventListener("click", () => {
+                showDetail(restaurant.id);
             });
         });
 
@@ -88,7 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         </button>
                     </div>
                     <div class="image-wrapper">
-                        <img src="https://restaurant-api.dicoding.dev/images/medium/${restaurant.pictureId}" alt="${restaurant.name}">
+                        <img src="https://restaurant-api.dicoding.dev/images/small/${restaurant.pictureId}" alt="${restaurant.name}">
                         <div class="location">
                             <p><b>City:</b> ${restaurant.city}</p>
                             <p><b>Address:</b> ${restaurant.address}</p>
@@ -126,28 +202,25 @@ document.addEventListener("DOMContentLoaded", () => {
                                 `).join('')}
                             </div>
                         </div>
-
                     </div>
                 `;
 
                 document.body.appendChild(detailContent);
-                mainContent.style.display = "none"; // Sembunyikan konten utama
-                detailContent.style.display = "block"; // Tampilkan halaman detail
+                mainContent.style.display = "none";
+                detailContent.style.display = "block";
 
-                // Buat elemen footer baru
+                // Buat footer baru
                 const footer = document.createElement('footer');
-                // Buat div container pertama
                 const div1 = document.createElement('div');
-                // Buat section untuk ikon media sosial
                 const section = document.createElement('section');
-                // Buat elemen link untuk Instagram
+
                 const instagramLink = document.createElement('a');
                 instagramLink.href = '#!';
                 instagramLink.role = 'button';
                 instagramLink.setAttribute('data-title', 'Instagram');
                 instagramLink.style.backgroundColor = '#ac2bac';
                 instagramLink.innerHTML = '<i class="fab fa-instagram"></i>';
-                // Buat elemen link untuk GitHub
+
                 const githubLink = document.createElement('a');
                 githubLink.href = 'https://github.com/SanayaAlmatin';
                 githubLink.target = '_blank';
@@ -155,27 +228,25 @@ document.addEventListener("DOMContentLoaded", () => {
                 githubLink.setAttribute('data-title', 'GitHub');
                 githubLink.style.backgroundColor = '#333333';
                 githubLink.innerHTML = '<i class="fab fa-github"></i>';
-                // Tambahkan link Instagram dan GitHub ke dalam section
+
                 section.appendChild(instagramLink);
                 section.appendChild(githubLink);
-                // Tambahkan section ke dalam div1
                 div1.appendChild(section);
-                // Buat div untuk teks footer
+
                 const div2 = document.createElement('div');
                 div2.className = 'text-footer';
                 div2.style.backgroundColor = 'rgba(0, 0, 0, 0.05)';
-                // Tambahkan teks copyright dan nama ke dalam div2
                 div2.innerHTML = `
                     © 2024 Copyright:
                     <p>Muchamad Sanaya Almatin (Id: F1837YB42)</p>
                 `;
-                // Tambahkan div1 dan div2 ke dalam footer
+
                 footer.appendChild(div1);
                 footer.appendChild(div2);
-                // Tambahkan footer ke dalam body atau elemen tertentu di halaman
+
                 document.body.appendChild(footer);
 
-                // Scroll ke target id "restaurant-name" setelah konten dimuat
+                // Scroll ke bagian "restaurant-name"
                 document.getElementById("restaurant-name").scrollIntoView({
                     behavior: "smooth"
                 });
@@ -184,13 +255,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.getElementById("back-button").addEventListener("click", () => {
                     detailContent.remove();
                     footer.remove();
-                    mainContent.style.display = "block"; // Tampilkan konten utama lagi
-                    document.body.classList.remove("detail-page"); // Hapus kelas .detail-page dari body
-
-                    // Hapus hash sementara dengan history.replaceState
-                    history.replaceState(null, null, " ");
-                    // Setelah itu, tambahkan hash #restaurant-list lagi untuk scroll ulang
-                    window.location.hash = "#restaurant-list";
+                    mainContent.style.display = "block";
+                    document.body.classList.remove("detail-page");
+                    document.getElementById("restaurant-list").scrollIntoView({
+                        behavior: "smooth"
+                    });
                 });
             })
             .catch(error => console.error("Failed to load detail:", error));
@@ -217,12 +286,4 @@ document.addEventListener("DOMContentLoaded", () => {
             updateCarousel();
         }
     });
-
-    document.querySelectorAll('.toggle-button').forEach(button => {
-        button.addEventListener('click', () => {
-            button.previousElementSibling.classList.toggle('expanded');
-            button.textContent = button.previousElementSibling.classList.contains('expanded') ? '-' : '+';
-        });
-    });
-
 });

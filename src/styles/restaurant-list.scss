@@ -11,7 +11,7 @@
         font-size: 2rem;
         text-align: center;
 
-        @media(max-width: 768px){
+        @media(max-width: 768px) {
             margin-bottom: 1rem;
             margin-top: 0.5rem;
         }
@@ -91,6 +91,34 @@
             min-height: auto;
         }
 
+        .favorite-icon {
+            width: 44px;
+            height: 44px;
+            position: absolute;
+            bottom: -6px;
+            right: 10px;
+            /* Latar belakang transparan */
+            border-radius: 50%;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+
+            img {
+                width: 20px;
+                height: 20px;
+            }
+
+            @media (max-width: 768px) {
+                bottom: 5px;
+                right: 5px;
+                bottom: 0;
+            }
+        }
+
         .location {
             position: absolute;
             top: 10px;
@@ -102,7 +130,7 @@
             font-size: 0.9rem;
             font-weight: 600;
 
-            @media(max-width: 768px){
+            @media(max-width: 768px) {
                 font-size: 0.7rem;
             }
         }
@@ -136,7 +164,7 @@
                 font-weight: 600;
                 margin-bottom: 0.5rem;
 
-                @media(max-width: 768px){
+                @media(max-width: 768px) {
                     font-size: 0.8rem;
                 }
             }
@@ -179,11 +207,11 @@
             padding: 0;
             transition: color 0.3s;
 
-            @media(max-width: 768px){
+            @media(max-width: 768px) {
                 font-size: 0.8rem;
                 height: 44px;
                 width: 44px;
-                white-space: nowrap; 
+                white-space: nowrap;
             }
 
             &:hover {
