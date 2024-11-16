@@ -1,11 +1,19 @@
 @use 'variables';
 
+body:not(.detail-page) .hero {
+    display: flex;
+}
+
+body.detail-page .hero {
+    display: none; // Hilangkan hero di halaman detail
+}
+
 .hero {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    width: 100%; 
+    width: 100%;
     color: variables.$dracula-foreground;
     background-image:
         linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
@@ -16,17 +24,17 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 
     @media (max-width: 1200px) {
-        width: min(100%, 1000px); 
+        width: min(100%, 1000px);
     }
 
     &__content {
-        background: rgba(0, 0, 0, 0.5); 
+        background: rgba(0, 0, 0, 0.5);
         padding: 2rem;
         border-radius: 8px;
         text-align: center;
         max-width: 80%;
-        box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.6); 
-        backdrop-filter: blur(5px); 
+        box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(5px);
 
         p {
             font-size: medium;
