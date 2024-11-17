@@ -27,8 +27,11 @@ function addFavorite(restaurant) {
     return openDatabase().then(db => {
         const tx = db.transaction(storeName, "readwrite");
         const store = tx.objectStore(storeName);
-        store.add(restaurant);
-        return tx.complete;
+        return new Promise((resolve, reject) => {
+            const addRequest = store.add(restaurant);
+            addRequest.onsuccess = () => resolve();
+            addRequest.onerror = () => reject(addRequest.error);
+        });
     });
 }
 
@@ -36,8 +39,11 @@ function removeFavorite(id) {
     return openDatabase().then(db => {
         const tx = db.transaction(storeName, "readwrite");
         const store = tx.objectStore(storeName);
-        store.delete(id);
-        return tx.complete;
+        return new Promise((resolve, reject) => {
+            const deleteRequest = store.delete(id);
+            deleteRequest.onsuccess = () => resolve();
+            deleteRequest.onerror = () => reject(deleteRequest.error);
+        });
     });
 }
 
@@ -50,6 +56,32 @@ function isFavorite(id) {
 
             request.onsuccess = () => resolve(!!request.result);
             request.onerror = () => resolve(false);
+        });
+    });
+}
+
+function getAllFavorites() {
+    return openDatabase().then(db => {
+        return new Promise((resolve, reject) => {
+            const tx = db.transaction(storeName, "readonly");
+            const store = tx.objectStore(storeName);
+            const request = store.getAll();
+
+            request.onsuccess = () => resolve(request.result);
+            request.onerror = () => reject(request.error);
+        });
+    });
+}
+
+function deleteFavorite(id) {
+    return openDatabase().then(db => {
+        const transaction = db.transaction(storeName, "readwrite"); // Menggunakan storeName
+        const store = transaction.objectStore(storeName);
+
+        return new Promise((resolve, reject) => {
+            const deleteRequest = store.delete(id);
+            deleteRequest.onsuccess = () => resolve();
+            deleteRequest.onerror = () => reject(deleteRequest.error);
         });
     });
 }
@@ -146,6 +178,8 @@ document.addEventListener("DOMContentLoaded", () => {
     function showDetail(id) {
         const mainContent = document.querySelector(".main-content");
         const detailContent = document.createElement("section");
+        const hero = document.querySelector(".hero");
+        const mainFooter = document.querySelector(".main-footer");
         detailContent.classList.add("restaurant-detail");
 
         // Tambahkan kelas .detail-page ke elemen body
@@ -207,6 +241,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 document.body.appendChild(detailContent);
                 mainContent.style.display = "none";
+                hero.style.display = "none";
+                mainFooter.style.display = "none";
                 detailContent.style.display = "block";
 
                 // Buat footer baru
@@ -255,7 +291,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.getElementById("back-button").addEventListener("click", () => {
                     detailContent.remove();
                     footer.remove();
+                    hero.style.height = "100vh"; // Sesuaikan jika ada perubahan ukuran
+                    hero.style.display = "flex";
+                    hero.style.alignItems = "center";
+                    hero.style.justifyContent = "center";
                     mainContent.style.display = "block";
+                    mainFooter.style.display = "block";
                     document.body.classList.remove("detail-page");
                     document.getElementById("restaurant-list").scrollIntoView({
                         behavior: "smooth"
@@ -286,4 +327,139 @@ document.addEventListener("DOMContentLoaded", () => {
             updateCarousel();
         }
     });
+});
+
+document.getElementById("favorite-menu").addEventListener("click", (event) => {
+    event.preventDefault();
+
+    const mainContent = document.querySelector(".main-content");
+    const hero = document.querySelector(".hero");
+    const mainFooter = document.getElementById("main-footer"); // Footer utama
+    const existingFavoriteSection = document.querySelector(".favorites-section");
+    const existingFavoritesFooter = document.querySelector("footer.favorites-footer");
+
+    // Hapus section favorit yang sudah ada untuk mencegah duplikasi
+    if (existingFavoriteSection) {
+        existingFavoriteSection.remove();
+    }
+
+    // Hapus footer khusus favorit jika sudah ada
+    if (existingFavoritesFooter) {
+        existingFavoritesFooter.remove();
+    }
+
+    // Buat section favorit baru
+    const favoriteSection = document.createElement("section");
+    favoriteSection.classList.add("favorites-section");
+
+    // Tambahkan tombol kembali dengan gambar SVG
+    const backButton = document.createElement("button");
+    backButton.id = "back-button";
+    backButton.innerHTML = `
+        <img src="../images/weui--back-filled.svg" alt="Back to home button">
+    `;
+    backButton.classList.add("back-to-home");
+
+    // Tambahkan listener untuk tombol kembali
+    backButton.addEventListener("click", () => {
+        favoriteSection.remove();
+        favoritesFooter.remove(); // Hapus footer khusus favorit
+        mainContent.style.display = "block";
+        hero.style.display = "block";
+        mainFooter.style.display = "block"; // Tampilkan kembali footer utama
+        hero.style.height = "100vh"; // Sesuaikan jika ada perubahan ukuran
+        hero.style.display = "flex";
+        hero.style.alignItems = "center";
+        hero.style.justifyContent = "center";
+        document.body.classList.remove("favorites-page");
+    });
+
+    // Susun tombol kembali dan judul di dalam section favorit
+    favoriteSection.innerHTML = `
+        <div class="favorites-header">
+            <h2>Your Favorites</h2>
+        </div>
+        <div class="favorites-container"></div>
+    `;
+
+    // Tambahkan tombol ke dalam header favorit
+    const favoritesHeader = favoriteSection.querySelector(".favorites-header");
+    favoritesHeader.prepend(backButton);
+
+    // Sembunyikan elemen utama lainnya
+    document.body.classList.add("favorites-page");
+    mainContent.style.display = "none";
+    hero.style.display = "none";
+    mainFooter.style.display = "none"; // Sembunyikan footer utama
+
+    // Tambahkan section favorit ke body
+    document.body.appendChild(favoriteSection);
+
+    const favoritesContainer = favoriteSection.querySelector(".favorites-container");
+
+    // Mengambil data favorit dari IndexedDB
+    getAllFavorites()
+        .then((favorites) => {
+            favoritesContainer.innerHTML = "";
+
+            if (favorites.length === 0) {
+                favoritesContainer.innerHTML = `<p>No favorite restaurants yet.</p>`;
+                return;
+            }
+
+            favorites.forEach((restaurant) => {
+                const card = document.createElement("div");
+                card.classList.add("favorite-card");
+                card.innerHTML = `
+                    <div class="favorite-location">City: ${restaurant.city}</div>
+                    <img src="https://restaurant-api.dicoding.dev/images/small/${restaurant.pictureId}" alt="${restaurant.name}">
+                    <div class="favorite-card__details">
+                        <p class="favorite-rating">Rating: <span>${restaurant.rating}</span></p>
+                        <h3>${restaurant.name}</h3>
+                        <p class="favorite-description">${restaurant.description.substring(0, 50)}...</p>
+                        <button class="delete-toggle-button" data-id="${restaurant.id}">
+                            <img src="../images/ion--trash.svg" alt="Delete Favorite">
+                        </button>
+                    </div>
+                `;
+                favoritesContainer.appendChild(card);
+
+                // Tambahkan event listener untuk tombol hapus
+                const deleteButton = card.querySelector(".delete-toggle-button");
+                deleteButton.addEventListener("click", () => {
+                    if (confirm(`Are you sure you want to remove "${restaurant.name}" from favorites?`)) {
+                        deleteFavorite(restaurant.id) // Fungsi untuk menghapus dari IndexedDB
+                            .then(() => {
+                                // Hapus kartu dari DOM setelah berhasil dihapus
+                                card.remove();
+
+                                // Tampilkan pesan jika tidak ada favorit yang tersisa
+                                if (favoritesContainer.children.length === 0) {
+                                    favoritesContainer.innerHTML = `<p>No favorite restaurants yet.</p>`;
+                                }
+                            })
+                            .catch((error) => console.error("Failed to delete favorite:", error));
+                    }
+                });
+            });
+
+        })
+        .catch((error) => console.error("Failed to load favorites:", error));
+
+    // Tambahkan footer khusus untuk halaman favorites
+    const favoritesFooter = document.createElement("footer");
+    favoritesFooter.classList.add("favorites-footer");
+    favoritesFooter.innerHTML = `
+    <div>
+        <section>
+            <a style="background-color: #ac2bac;" href="#!" role="button" data-title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a style="background-color: #333333;" href="https://github.com/SanayaAlmatin" target="_blank" rel="noopener noreferrer" role="button" data-title="GitHub"><i class="fab fa-github"></i></a>
+        </section>
+    </div>
+    <div class="text-footer" style="background-color: rgba(0, 0, 0, 0.05);">
+        © 2024 Copyright:
+        <p>Muchamad Sanaya Almatin (Id: F1837YB42)</p>
+    </div>
+`;
+    document.body.appendChild(favoritesFooter);
 });

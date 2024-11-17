@@ -1,0 +1,179 @@
+@use 'variables';
+
+.favorites-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; // Jarak antara tombol dan teks
+    padding: 10px;
+}
+
+.favorites-header h2 {
+    margin: 0;
+    font-size: 1.8rem; // Sesuaikan ukuran font
+}
+
+.back-to-home {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.back-to-home img {
+    width: 44px;
+    height: 44px;
+}
+
+/* Styling khusus untuk halaman favorites */
+.favorites-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; // Memastikan tinggi halaman penuh
+}
+
+.favorites-container {
+    width: 70%; // Lebar kontainer
+    margin: 0 auto; // Menempatkan kontainer di tengah
+    display: flex;
+    flex-wrap: wrap; // Agar card turun ke baris baru jika melebihi lebar kontainer
+    gap: 1rem; // Jarak antar card
+    justify-content: center; // Rata tengah secara horizontal
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+
+    @media(max-width: 768px) {
+        width: 95%;
+    }
+}
+
+.favorite-card {
+    flex: 1 1 calc(33.333% - 1rem); // Tiga card per baris, kurangi gap
+    max-width: calc(33.333% - 1rem); // Pastikan maksimum tiga card
+    background-color: variables.$dracula-bg;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: left;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+
+    @media (max-width: 768px) {
+        flex: 1 1 45%; // Dua card per baris pada layar kecil
+        max-width: 45%;
+    }
+
+    .favorite-location {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background-color: variables.$dracula-purple;
+        color: variables.$dracula-foreground;
+        padding: 0.2rem 0.5rem;
+        border-radius: 5px;
+        font-size: 0.9rem;
+        font-weight: 600;
+
+        @media (max-width: 768px) {
+            font-size: 0.7rem;
+        }
+    }
+
+    img {
+        width: 100%;
+        height: auto;
+        max-height: 150px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+
+        @media (max-width: 768px) {
+            max-height: 120px; // Ukuran proporsional untuk tablet
+        }
+
+        @media (max-width: 480px) {
+            max-height: 100px; // Ukuran proporsional untuk layar kecil
+        }
+    }
+
+    &__details {
+        h3 {
+            margin-top: 0.5rem;
+            color: variables.$dracula-purple;
+            font-size: 1rem;
+
+            @media (max-width: 768px) {
+                font-size: 0.8rem;
+            }
+        }
+
+        .favorite-rating {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+
+            @media (max-width: 768px) {
+                font-size: 0.8rem;
+            }
+        }
+
+        span {
+            color: variables.$dracula-yellow;
+        }
+
+        .favorite-description {
+            max-height: 3rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: normal;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            transition: max-height 0.3s ease;
+            color: variables.$dracula-foreground;
+            margin-bottom: 1rem;
+            font-weight: 400;
+            font-size: medium;
+            margin-top: 0.5rem;
+
+            @media (max-width: 768px) {
+                font-size: 0.7rem;
+            }
+        }
+
+        .favorite-description.expanded {
+            max-height: 100px;
+        }
+    }
+
+    .delete-toggle-button {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 5px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.2s ease, opacity 0.2s ease;
+
+        @media(max-width: 768px){
+            width: 44px;
+            height: 44px;
+        }
+    }
+
+    .delete-toggle-button img {
+        width: 24px;
+        height: 24px;
+        filter: invert(36%) sepia(99%) saturate(448%) hue-rotate(327deg) brightness(94%) contrast(98%);
+    }
+
+    .delete-toggle-button:hover {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+}
