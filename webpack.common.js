@@ -37,6 +37,12 @@ module.exports = {
       },
     ],
   },
+  resolve: {
+    extensions: ['.js', '.json'],
+  },
+  resolve: {
+    extensions: ['.js'],
+  },
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({

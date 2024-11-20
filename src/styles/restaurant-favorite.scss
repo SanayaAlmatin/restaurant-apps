@@ -1,6 +1,6 @@
 @use 'variables';
 
-.favorites-header {
+.favorite-title {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -8,7 +8,7 @@
     padding: 10px;
 }
 
-.favorites-header h2 {
+.favorite-title h2 {
     margin: 0;
     font-size: 1.8rem; // Sesuaikan ukuran font
 }
