@@ -9,7 +9,7 @@ const createRestaurantCard = (restaurant) => `
             <div class="favorite-icon">
                 <img src="../images/uil--favorite.svg" alt="favorite icon" class="favorite-toggle" data-id="${restaurant.id}">
             </div>
-            <button class="detail-button" data-id="${restaurant.id}">Detail</button> 
+            <button class="detail-button" data-id="${restaurant.id}">Detail</button> <!-- Tombol dengan data-id -->
         </div>
     </div>
 `;

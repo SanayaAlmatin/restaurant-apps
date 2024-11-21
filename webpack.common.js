@@ -5,6 +5,9 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const {
   CleanWebpackPlugin
 } = require('clean-webpack-plugin');
+const {
+  GenerateSW
+} = require('workbox-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -37,12 +40,6 @@ module.exports = {
       },
     ],
   },
-  resolve: {
-    extensions: ['.js', '.json'],
-  },
-  resolve: {
-    extensions: ['.js'],
-  },
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
@@ -62,6 +59,42 @@ module.exports = {
     }),
     new MiniCssExtractPlugin({
       filename: 'styles/[name].css',
+    }),
+    new GenerateSW({
+      swDest: 'service-worker.js', // Nama file SW yang akan dihasilkan
+      clientsClaim: true, // Aktifkan SW untuk semua klien
+      skipWaiting: true, // Lewati langkah menunggu untuk mengaktifkan SW baru
+      runtimeCaching: [{
+          urlPattern: /\.(?:png|jpg|jpeg|svg|gif)$/,
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'images',
+            expiration: {
+              maxEntries: 50,
+              maxAgeSeconds: 30 * 24 * 60 * 60, // 30 hari
+            },
+          },
+        },
+        {
+          urlPattern: /\.(?:css|js)$/,
+          handler: 'StaleWhileRevalidate',
+          options: {
+            cacheName: 'static-resources',
+          },
+        },
+        {
+          urlPattern: /^https:\/\/restaurant-api\.dicoding\.dev\/.*/,
+          handler: 'NetworkFirst',
+          options: {
+            cacheName: 'api-cache',
+            networkTimeoutSeconds: 10,
+            expiration: {
+              maxEntries: 30,
+              maxAgeSeconds: 24 * 60 * 60, // 1 hari
+            },
+          },
+        },
+      ],
     }),
   ],
 };

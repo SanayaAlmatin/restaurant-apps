@@ -6,10 +6,12 @@ const createFavoriteCard = (restaurant) => `
             <p class="favorite-rating">Rating: <span>${restaurant.rating}</span></p>
             <h3>${restaurant.name}</h3>
             <p class="favorite-description">${restaurant.description.substring(0, 50)}...</p>
-            <button class="delete-toggle-button" data-id="${restaurant.id}">
-                <img src="../images/ion--trash.svg" alt="Delete Favorite">
-            </button>
-            <button class="detail-button" data-id="${restaurant.id}">Detail</button>
+            <div class="favorite-actions">
+                <button class="delete-toggle-button" data-id="${restaurant.id}">
+                    <img src="../images/ion--trash.svg" alt="Delete Favorite">
+                </button>
+                <button class="detail-button" data-id="${restaurant.id}">Detail</button>
+            </div>
         </div>
     </div>
 `;
