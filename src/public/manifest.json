@@ -1,0 +1,19 @@
+{
+    "name": "The Choosen One Resto",
+    "short_name": "Choosen One",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#f8f8f2",
+    "theme_color": "#282a36",
+    "icons": [{
+            "src": "/src/public/icons_app/icons-256.png",
+            "type": "image/png",
+            "sizes": "256x256"
+        },
+        {
+            "src": "/src/public/icons_app/icons-512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ]
+}

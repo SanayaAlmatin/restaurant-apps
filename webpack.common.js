@@ -55,6 +55,10 @@ module.exports = {
           from: path.resolve(__dirname, 'src/public/data'),
           to: path.resolve(__dirname, 'dist/data'),
         },
+        {
+          from: path.resolve(__dirname, 'src/public'),
+          to: path.resolve(__dirname, 'dist')
+        },
       ],
     }),
     new MiniCssExtractPlugin({
